@@ -20,4 +20,15 @@ $ conda install conda
 ```bash
 $ conda activate mini-rag
 ```
+
+4) install dependencies
+```bash
 - pip install -r requirements.txt
+```
+
+5) copy .env.example to .env
+```bash
+$ cp .env.example .env
+```
+set your enviroment in the .env like env.example
+
