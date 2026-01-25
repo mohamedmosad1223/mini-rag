@@ -34,7 +34,7 @@ set your enviroment in the .env like env.example
 
 ## run the app
 ```bash
-$ uvicorn main:app --reload 
+$ uvicorn main:app --reload --host 0.0.0.0 --port 5000
 ```
 ## Postman Collection
 - [Mini-Rag-App.postman_collection.json](assets/Mini-Rag-App.postman_collection.json)
