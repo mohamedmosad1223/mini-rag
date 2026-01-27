@@ -80,6 +80,39 @@ JSONResponse(
     }
 )
 ```
+## chunking data
+- we will chunk the data into smaller parts to make it easier to process
+- we will use the chunk size from the config helper to chunk the data
+
+- we do it for specific cases:
+  - when we upload a new file
+  -(PDF or TXT)
+- first
+  - we will read the file and get the content and metadata
+  - we will split the content into smaller parts
+  - we will save the parts in the project directory
+  - we will save the metadata in the project directory
+
+## after that we save the chunks in the database to reuse it again
+
+## docker 
+- [docker-compose.yml](docker-compose.yml)
+- we create a docker compose for mongodb to use it and connect in my localhost:27007 and use studio 3T to connect to it
+- to run mongodb using docker compose 
+```bash
+docker-compose up -d
+```
+- to stop mongodb using docker compose
+```bash
+docker-compose down
+```
+- to remove all docker containers
+```bash
+docker-compose down -v
+```
+
+
+
 
 
 
