@@ -20,3 +20,15 @@ class Project(BaseModel):
         populate_by_name=True,
         arbitrary_types_allowed=True
     )
+
+    @classmethod
+    def get_indexes(cls):
+        return [
+            {
+                "key":[ # take one or more fields to index
+                    ("project_id", 1) # the object is indexed in ascending order
+                ],
+                "name":"project_id_index_1",
+                "unique": True
+            }
+            ]

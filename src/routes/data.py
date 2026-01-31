@@ -22,7 +22,7 @@ data_router = APIRouter(
 @data_router.post("/upload/{project_id}")
 async def upload_project(request:Request,project_id :str, file:UploadFile
                          ,app_settigs: Settings = Depends(get_settings)):
-    project_model=ProjectModel(db_client=request.app.db_client)
+    project_model=await ProjectModel.create_instance(db_client=request.app.db_client)
 
     project= await project_model.get_project_or_create_one(project_id=project_id)
     
@@ -71,10 +71,10 @@ async def process_endpoint(request:Request, project_id:str, process_request:Proc
     chunk_size=process_request.chunk_size
     overlap_size=process_request.overlap_size
     do_reset=process_request.do_reset
-    project_model=ProjectModel(db_client=request.app.db_client)
+    project_model=await ProjectModel.create_instance(db_client=request.app.db_client)
 
     project= await project_model.get_project_or_create_one(project_id=project_id)
-    chunk_model=ChunkModel(db_client=request.app.db_client)
+    chunk_model=await ChunkModel.create_instance(db_client=request.app.db_client)
     
 
     process_controller=ProcessController(project_id=project_id)

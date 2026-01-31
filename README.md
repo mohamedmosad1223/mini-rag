@@ -96,6 +96,11 @@ JSONResponse(
 ## after that we save the chunks in the database to reuse it again
 
 ## docker 
+```bash
+- cd docker 
+- cp .env.example .env
+```
+=then update your .env 
 - [docker-compose.yml](docker-compose.yml)
 - we create a docker compose for mongodb to use it and connect in my localhost:27007 and use studio 3T to connect to it
 - to run mongodb using docker compose 
