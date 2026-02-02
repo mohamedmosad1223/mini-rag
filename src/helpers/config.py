@@ -22,6 +22,10 @@ class Settings(BaseSettings):
     INPUT_DEFAULT_MAX_CHARACTERS: int
     GENERATION_DEFAULT_MAX_OUTPUT_TOKENS: int
     GENERATION_DEFAULT_TEMPERATURE: float
+    ############################Vector DB Settings############################
+    VECTORE_DB_BACKEND: str
+    VECTORE_DB_PATH: str
+    VECTORE_DB_DISTANCE_METHODE: str =None
 
 
     class Config:
