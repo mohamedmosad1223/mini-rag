@@ -119,5 +119,22 @@ docker-compose down -v
 
 
 
+## build LLM
+### first we build interface for LLM
+- that have methods like:
+  - generate_response
+  - summarize_text
+  - answer_question
+  - all these methods will be implemented in the llm class
+### then we build llm class that implement the llm interface build 2 provider 
+  - openai
+  - cohere
+
+- we use openai gpt-3.5 model to build the llm 
+- we use cohere command model to build the llm
+### then we build llm factory to create llm instance based on the provider
+
+
+
 
 
