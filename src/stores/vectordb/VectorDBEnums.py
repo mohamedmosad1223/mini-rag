@@ -1,7 +1,7 @@
 from enum import Enum
 
 class VectorDBEnums(Enum):
-    QUDRANT = "Qdrant"
+    QDRANT = "Qdrant"
 
 class DistanceMethodeEnums(Enum):
     COSINE = "Cosine"
