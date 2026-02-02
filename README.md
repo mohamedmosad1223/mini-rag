@@ -135,6 +135,18 @@ docker-compose down -v
 ### then we build llm factory to create llm instance based on the provider
 
 
+## build vector database
+### first we build interface for vector database
+- that have methods like:
+  - add_vectors
+  - search_vectors
+  - delete_vectors
+  - all these methods will be implemented in the vector database class
+### then we build vector database class that implement the vector database interface build 1 provider 
+  - qdrant
+- we use qdrant to build the vector database
+### then we build vector database factory to create vector database instance based on the provider
+
 
 
 
