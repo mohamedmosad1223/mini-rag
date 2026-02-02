@@ -32,3 +32,9 @@ $ cp .env.example .env
 ```
 set your enviroment in the .env like env.example
 
+## run the app
+```bash
+$ uvicorn main:app --reload 
+```
+## Postman Collection
+- [Mini-Rag-App.postman_collection.json](assets/Mini-Rag-App.postman_collection.json)
