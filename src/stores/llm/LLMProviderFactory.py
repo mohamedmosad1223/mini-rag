@@ -1,5 +1,6 @@
 from .LLMEnum import LLMEnum
-from .providers import CoHereProvider,OpenAiProvider
+from .providers import CoHereProvider,OpenAiProvider,MmBertEmbedProvider
+
 
 import logging
 class LLMProviderFactory:
@@ -23,6 +24,15 @@ class LLMProviderFactory:
                 default_generation_temperature=self.config.GENERATION_DEFAULT_TEMPERATURE,
             )
 
+        elif provider == LLMEnum.MMBERT.value:
+            # embedding-only provider
+            return MmBertEmbedProvider(
+                default_input_max_characters=self.config.INPUT_DEFAULT_MAX_CHARACTERS,
+                default_generation_max_output_tokens=self.config.GENERATION_DEFAULT_MAX_OUTPUT_TOKENS,
+                default_generation_temperature=self.config.GENERATION_DEFAULT_TEMPERATURE,
+                default_max_seq_length=getattr(self.config, "EMBEDDING_MAX_SEQ_LENGTH", 2048),
+                cache_folder=getattr(self.config, "HF_CACHE_FOLDER", None),
+            )
         else:
             logger = logging.getLogger(__name__)
             logger.error(f"Unsupported LLM provider: {provider}")
