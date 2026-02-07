@@ -29,6 +29,10 @@ class Settings(BaseSettings):
     VECTORE_DB_BACKEND: str
     VECTORE_DB_PATH: str
     VECTORE_DB_DISTANCE_METHODE: str =None
+
+    ###########################Templet Config###########
+    DEFAULT_LANGUAGE:str
+    PRIMARY_LANGUAGE:str
     
 
 
