@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List
+from models.db_schemes import RetrievedContent
+
 class VectorDBInterface(ABC):
     @abstractmethod
     def connect(self):
@@ -58,5 +60,6 @@ class VectorDBInterface(ABC):
                          collection_name: str,
                          vector:list,
                          limit:int       
-    ) -> List[dict]:
+    ) -> List[RetrievedContent
+]:
         pass

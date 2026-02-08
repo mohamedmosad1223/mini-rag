@@ -3,6 +3,9 @@ from enum import Enum
 class LLMEnum(str, Enum):
     OPENAI="OPENAI"
     COHERE="COHERE"
+    MMBERT="MMBERT"
+    GROK="GROK"
+
 
 class OpenAiModelsEnum(str, Enum):
     SYSTEM="system"

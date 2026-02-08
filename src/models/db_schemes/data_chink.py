@@ -26,3 +26,7 @@ class DataChunk(BaseModel):
                 "unique": False
             }
             ]
+    
+class RetrievedContent(BaseModel):
+    text:str
+    score:float
