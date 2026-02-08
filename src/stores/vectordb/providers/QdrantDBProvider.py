@@ -3,6 +3,8 @@ from ..VectorDBInterface import VectorDBInterface
 import logging
 from ..VectorDBEnums import VectorDBEnums, DistanceMethodeEnums
 from typing import List
+from models.db_schemes import RetrievedContent
+
 class QdrantDBProvider(VectorDBInterface):
     def __init__(self,
                  db_path:str,
@@ -74,7 +76,7 @@ class QdrantDBProvider(VectorDBInterface):
                 collection_name=collection_name,
                 records=[
                     models.Record(
-                        id=record_id,
+                        id=[record_id],
                         vector=vector,
                         payload={
                             "text": text,
@@ -100,15 +102,18 @@ class QdrantDBProvider(VectorDBInterface):
         if metadata is None:
             metadata=[None]*len(texts)
         if record_ids is None:
-            record_ids=[None]*len(texts)
+            record_ids=list(range(0,len(texts)))
         for i in range(0, len(texts), batch_size):
             batch_end=i + batch_size
+
             batch_texts = texts[i: batch_end]
             batch_vectors = vectors[i:batch_end]
             batch_metadata = metadata[i:batch_end]
+            batch_record_id=record_ids[i:batch_end]
 
             batch_records=[
                 models.Record(
+                    id=batch_record_id[x],
                     vector=batch_vectors[x],
                     payload={
                         "text": batch_texts[x],
@@ -136,11 +141,21 @@ class QdrantDBProvider(VectorDBInterface):
                          vector:list,
                          limit:int =5      
     ) -> List[dict]:
-        return self.client.search(
+        results= self.client.search(
             collection_name=collection_name,
             query_vector=vector,
             limit=limit
         )
+        if not results or len(results)==0:
+            return None
+        return [
+        RetrievedContent(**{
+            "score": result.score,
+            "text": (result.payload or {}).get("text", "")
+        })
+        for result in results
+    ]
+
         
 
        

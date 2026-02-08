@@ -4,13 +4,13 @@ import logging
 from ..LLMEnum import OpenAiModelsEnum
 
 class OpenAiProvider(LLMInterface):
-    def __init__(self, api_key: str,api_url:str=None,
+    def __init__(self, api_key: str,base_url:str=None,
                  default_input_max_characters :int =1000
                  ,default_generation_max_output_tokens :int =1000,
                  default_generation_temperature: float =0.1,):
         
         self.api_key = api_key
-        self.api_url = api_url
+        self.base_url = base_url
         self.default_input_max_characters = default_input_max_characters
         self.default_generation_max_output_tokens = default_generation_max_output_tokens
         self.default_generation_temperature = default_generation_temperature
@@ -21,9 +21,10 @@ class OpenAiProvider(LLMInterface):
 
         self.client = OpenAI(
             api_key=self.api_key, 
-            api_url=self.api_url
+            base_url=self.base_url if self.base_url and len(self.base_url) else None
             
             )
+        self.enums=OpenAiModelsEnum
         self.logger = logging.getLogger(__name__)
 
 
@@ -71,7 +72,7 @@ class OpenAiProvider(LLMInterface):
             self.logger.error("No completion data returned from OpenAI.")
             return None
         
-        return response.choices[0].message["content"]
+        return response.choices[0].message.content
 
 
     def embed_text(self, text: str,document_type: str =None):
@@ -93,10 +94,8 @@ class OpenAiProvider(LLMInterface):
 
 
     def construct_prompt(self, prompt: str, role: str):
-        return [
-            {
-            "role": role,
-            "content": self.process_text(prompt)
-            }
-        ]
+        return {
+        "role": role,
+        "content": self.process_text(prompt)
+    }
     

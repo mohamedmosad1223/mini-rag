@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     GENERATION_BACKEND: str
     EMBEDDING_BACKEND: str
 
+
     OPENAI_API_KEY: str
     OPENAI_API_URL: str
     COHERE_API_KEY: str 
@@ -22,10 +23,17 @@ class Settings(BaseSettings):
     INPUT_DEFAULT_MAX_CHARACTERS: int
     GENERATION_DEFAULT_MAX_OUTPUT_TOKENS: int
     GENERATION_DEFAULT_TEMPERATURE: float
+    HF_CACHE_FOLDER:str
+    EMBEDDING_MAX_SEQ_LENGTH:int
     ############################Vector DB Settings############################
     VECTORE_DB_BACKEND: str
     VECTORE_DB_PATH: str
     VECTORE_DB_DISTANCE_METHODE: str =None
+
+    ###########################Templet Config###########
+    DEFAULT_LANGUAGE:str
+    PRIMARY_LANGUAGE:str
+    
 
 
     class Config:
