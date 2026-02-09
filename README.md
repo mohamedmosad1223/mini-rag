@@ -31,7 +31,11 @@ $ conda activate mini-rag-app
 $ cp .env.example .env
 ```
 set your enviroment in the .env like env.example
+## handel terminal view
+```bash
+export PS1="\[\e[01;32m\]\u@\h:\w\n\[\e[00m\]\$ "
 
+```
 ## run the app
 ```bash
 $ uvicorn main:app --reload --host 0.0.0.0 --port 5000
