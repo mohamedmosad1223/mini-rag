@@ -17,8 +17,8 @@ class DataChunk(SQLAlchemyBase):
     chunk_metadata=Column(JSONB,nullable=False)
     chunk_order=Column(Integer,nullable=False)
 
-    chunk_project_id=Column(Integer,ForeignKey("projects:project_id"),nullable=False)
-    chunk_asset_id=Column(Integer,ForeignKey("assets:asset_id"),nullable=False)
+    chunk_project_id=Column(Integer,ForeignKey("projects.project_id"),nullable=False)
+    chunk_asset_id=Column(Integer,ForeignKey("assets.asset_id"),nullable=False)
 
     created_at=Column(DateTime(timezone=True),server_default=func.now(),nullable=False)
     updated_at=Column(DateTime(timezone=True),onupdate=func.now(),nullable=True)

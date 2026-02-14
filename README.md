@@ -152,5 +152,17 @@ docker-compose down -v
 ### then we build vector database factory to create vector database instance based on the provider
 
 
+### install alembic 
+
+- update sqlalchemy.url in alembic.ini 
+### new miguration
+```bash
+alembic revision --autogenerate -m "initial commit"
+```
+### Added logic into database
+```bash
+alembic upgrade head```
+
+
 
 
