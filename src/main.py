@@ -19,8 +19,17 @@ app =FastAPI()
 
 async def startup_span():
     settings=get_settings()
+    print(f"DEBUG: USERNAME: |{settings.POSTGRES_USERNAME}|")
+    print(f"DEBUG: PASSWORD: |{settings.POSTGRES_PASSWORD}|")
+    print(f"DEBUG: HOST: |{settings.POSTGRES_HOST}|")
+    print(f"DEBUG: PORT: |{settings.POSTGRES_PORT}|")
+    print(f"DEBUG: DB: |{settings.POSTGRES_MAIN_DATABASE}|")
 
-    postgres_conn=f"postgresql+asyncpg://{settings.POSTGRES_USERNAME}:{settings.POSTGRES_PASSWORD}@{settings.POSTGRES_HOST}:{settings.POSTGRES_PORT}/{settings.POSTGRES_MAIN_DATABASE} "
+    postgres_conn = f"postgresql+asyncpg://{settings.POSTGRES_USERNAME}:{settings.POSTGRES_PASSWORD}@{settings.POSTGRES_HOST}:{settings.POSTGRES_PORT}/{settings.POSTGRES_MAIN_DATABASE}"
+    
+    print(f"DEBUG: FULL URL: |{postgres_conn}|")
+
+    postgres_conn = f"postgresql+asyncpg://{settings.POSTGRES_USERNAME}:{settings.POSTGRES_PASSWORD}@{settings.POSTGRES_HOST}:{settings.POSTGRES_PORT}/{settings.POSTGRES_MAIN_DATABASE}" 
     app.db_engine=create_async_engine(postgres_conn)
     app.db_client= sessionmaker(
         app.db_engine ,class_=AsyncSession,expire_on_commit=False

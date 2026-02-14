@@ -56,7 +56,7 @@ async def index_project(
     idx=0
     while has_records:
         page_chunks= await chunk_model.getproject_chunk(
-            project_id=project.id,
+            project_id=project.project_id,
             page_no=page_no,
         )
         if len(page_chunks):
