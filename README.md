@@ -152,14 +152,21 @@ docker-compose down -v
 ### then we build vector database factory to create vector database instance based on the provider
 
 
-### install alembic 
 
-- update sqlalchemy.url in alembic.ini 
-### new miguration
+### Database Evolution: From NoSQL to SQL
+- PostgreSQL 
+
+- Database Migrations (Alembic)
+- We use Alembic to manage our PostgreSQL schema 
+
+Bash
+# Generate a new migration based on model changes
 ```bash
 alembic revision --autogenerate -m "initial commit"
 ```
-### Added logic into database
+
+# Apply migrations to the database
+
 ```bash
 alembic upgrade head```
 
