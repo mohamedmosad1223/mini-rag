@@ -72,7 +72,7 @@ async def upload_project(request:Request,project_id :int, file:UploadFile
     return JSONResponse(
             content={
                 "signal": ResponseSignal.FILE_UPLOAD_SUCCESS.value,
-                "file_id": str(asset_resource.asset_id),
+                "file_id": str(asset_resource.asset_name),
             }
         )
 
@@ -113,7 +113,7 @@ async def process_endpoint(request:Request, project_id:int, process_request:Proc
             asset_type=AssetTypeEnum.FILE.value
             )
         project_files_id={
-            record.asset_project_id:record.asset_name
+            record.asset_id:record.asset_name
             for record in project_files 
         }
     if len( project_files_id)==0:

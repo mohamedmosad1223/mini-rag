@@ -15,7 +15,7 @@ class ChunkModel(BaseDataModel):
     @classmethod
     async def create_instance(cls, db_client):
         instance=cls(db_client)
-        await instance.init_collection()
+        # await instance.init_collection()
         return instance
 # when it init create indexes
     # async def init_collection(self):

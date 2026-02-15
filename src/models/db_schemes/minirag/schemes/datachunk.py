@@ -23,8 +23,8 @@ class DataChunk(SQLAlchemyBase):
     created_at=Column(DateTime(timezone=True),server_default=func.now(),nullable=False)
     updated_at=Column(DateTime(timezone=True),onupdate=func.now(),nullable=True)
 
-    project = relationship("Project",back_populates="Chunks")
-    asset = relationship("Asset",back_populates="Chunks")
+    project = relationship("Project", back_populates="chunks") 
+    asset = relationship("Asset", back_populates="chunk")
 
 
     __table_args__=(
