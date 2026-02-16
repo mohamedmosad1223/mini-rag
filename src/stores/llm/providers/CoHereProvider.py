@@ -3,6 +3,7 @@ from openai import OpenAI
 import logging
 from ..LLMEnum import CohereModelsEnum, DocumentTypeEnum
 import cohere
+from typing import List,Union
 
 class CoHereProvider(LLMInterface):
     def __init__(self, api_key: str,api_url:str=None,
@@ -60,11 +61,15 @@ class CoHereProvider(LLMInterface):
         return response.text
 
     
-    def embed_text(self, text: str,document_type: str =None):
+    def embed_text(self, text:Union[str,List[str]] ,document_type: str =None):
         if not self.client:
             # raise ValueError("OpenAI client is not initialized.") but it stop the program
             self.logger.error("OpenAI client is not initialized.") # error log but continue the program
             return None
+        
+        if isinstance(text,str):
+            text=[text]
+
         if not self.embedding_model_id:
             self.logger.error("Embedding model ID is not set.")
             return None
@@ -74,14 +79,14 @@ class CoHereProvider(LLMInterface):
 
         response = self.client.embed(
             model=self.embedding_model_id,
-            texts=[self.process_text(text)],
+            texts=[self.process_text(t) for t in text],
             input_type=input_type,
             embedding_types=["float"]
         )
         if not response or not response.embeddings or response.embeddings.float:
             self.logger.error("No embedding data returned from Cohere.")
             return None
-        return response.embeddings[0].float
+        return [f for f in response.embeddings.float]
 
     def construct_prompt(self, prompt: str, role: str):
         return [

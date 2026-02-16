@@ -1,5 +1,5 @@
 from pydantic_settings import BaseSettings ,SettingsConfigDict
-
+from typing import List
 class Settings(BaseSettings):
     APP_NAME: str
     APP_VERSION: str
@@ -22,7 +22,7 @@ class Settings(BaseSettings):
     OPENAI_API_KEY: str
     OPENAI_API_URL: str
     COHERE_API_KEY: str 
-
+    GENERATION_MODEL_ID_LITREL:List[str]=None
     GENERATION_MODEL_ID: str
     EMBEDDING_MODEL_ID: str
     EMBEDDING_MODEL_SIZE: int
@@ -32,9 +32,11 @@ class Settings(BaseSettings):
     HF_CACHE_FOLDER:str
     EMBEDDING_MAX_SEQ_LENGTH:int
     ############################Vector DB Settings############################
+    VECTORE_DB_BACKEND_LITREL:List[str]=None
     VECTORE_DB_BACKEND: str
     VECTORE_DB_PATH: str
     VECTORE_DB_DISTANCE_METHODE: str =None
+    VECTORE_DB_PGVEC_INDEX_THREASHOLD:int =100
 
     ###########################Templet Config###########
     DEFAULT_LANGUAGE:str

@@ -1,6 +1,7 @@
 from ..LLMInterface import LLMInterface
 import logging
 from sentence_transformers import SentenceTransformer
+from typing import List,Union
 
 
 class MmBertEmbedProvider(LLMInterface):
@@ -58,40 +59,86 @@ class MmBertEmbedProvider(LLMInterface):
         self.logger.error("MmBertEmbedProvider does not support text generation (embedding-only model).")
         return None
 
-    def embed_text(self, text: str, document_type: str = None):
+    # def embed_text(self, text:Union[str,List[str]], document_type: str = None):
+    #     if not self.client:
+    #         self.logger.error("Embedding model is not initialized. Call set_embedding_model first.")
+    #         return None
+    #     if isinstance(text,str):
+    #         text=[text]
+
+    #     if not self.embedding_model_id:
+    #         self.logger.error("Embedding model ID is not set.")
+    #         return None
+    #     if not isinstance(text, str) or not text.strip():
+    #         self.logger.error("Empty text provided for embedding.")
+    #         return None
+
+    #     processed = self.process_text(text)
+
+       
+    #     if document_type == "query":
+    #         processed = f"query: {processed}"
+    #     else:
+    #         processed = f"passage: {processed}"
+
+
+    #     try:
+    #         emb = self.client.encode(processed)  
+
+    #         if self.embedding_size and 0 < self.embedding_size < len(emb):
+    #             emb = emb[: self.embedding_size]
+
+
+    #         norm = (sum((x * x) for x in emb) ** 0.5)
+    #         if norm > 0:
+    #             emb = [float(x / norm) for x in emb]
+    #         else:
+    #             emb = [float(x) for x in emb]
+
+    #         return emb
+    #     except Exception as e:
+    #         self.logger.error(f"Embedding failed: {e}")
+    #         return None
+
+    def embed_text(self, text: Union[str, List[str]], document_type: str = None):
         if not self.client:
             self.logger.error("Embedding model is not initialized. Call set_embedding_model first.")
             return None
+
+        if isinstance(text, str):
+            text = [text]
+
         if not self.embedding_model_id:
             self.logger.error("Embedding model ID is not set.")
             return None
-        if not isinstance(text, str) or not text.strip():
-            self.logger.error("Empty text provided for embedding.")
-            return None
 
-        processed = self.process_text(text)
-
-       
-        if document_type == "query":
-            processed = f"query: {processed}"
-        else:
-            processed = f"passage: {processed}"
-
+        prefix = "query: " if document_type == "query" else "passage: "
 
         try:
-            emb = self.client.encode(processed)  
+            processed_texts = [f"{prefix}{self.process_text(t)}" for t in text if t.strip()]
+            
+            if not processed_texts:
+                self.logger.error("No valid non-empty text provided for embedding.")
+                return None
 
-            if self.embedding_size and 0 < self.embedding_size < len(emb):
-                emb = emb[: self.embedding_size]
+            all_embeddings = self.client.encode(processed_texts)
+
+            final_embeddings = []
+            for emb in all_embeddings:
+                if self.embedding_size and 0 < self.embedding_size < len(emb):
+                    emb = emb[: self.embedding_size]
+
+                norm = sum(x**2 for x in emb)**0.5
+                if norm > 0:
+                    emb = [float(x / norm) for x in emb]
+                else:
+                    emb = [float(x) for x in emb]
+                
+                final_embeddings.append(emb)
 
 
-            norm = (sum((x * x) for x in emb) ** 0.5)
-            if norm > 0:
-                emb = [float(x / norm) for x in emb]
-            else:
-                emb = [float(x) for x in emb]
+            return final_embeddings if len(final_embeddings) > 1 else final_embeddings[0]
 
-            return emb
         except Exception as e:
             self.logger.error(f"Embedding failed: {e}")
             return None
